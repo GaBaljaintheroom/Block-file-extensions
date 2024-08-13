@@ -1,11 +1,22 @@
 plugins {
     id 'java'
+    id 'checkstyle'
     id 'org.springframework.boot' version '3.3.2'
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'flow.practice'
 version = '0.0.1-SNAPSHOT'
+
+projects {
+    apply plugin: 'checkstyle'
+
+    checkstyle {
+        maxWarnings = 0
+        configFile = file("${rootDir}/config/checkstyle.xml")
+        toolVersion = '10.17.0'
+    }
+}
 
 java {
     toolchain {
@@ -42,8 +53,16 @@ dependencies {
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+tasks.register('installGitPreCommitHook', Copy) {
+    from new File(rootProject.rootDir, 'scripts/pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks') }
+    fileMode 0775
 }
+
+compileJava.dependsOn(installGitPreCommitHook)

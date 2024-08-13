@@ -4,8 +4,8 @@ services:
     container_name: mysql
     environment:
       - 'MYSQL_DATABASE=flow'
-      - 'MYSQL_PASSWORD=junsu_password'
-      - 'MYSQL_ROOT_PASSWORD=junsu_password'
+      - 'MYSQL_PASSWORD=password'
+      - 'MYSQL_ROOT_PASSWORD=password'
       - 'MYSQL_USER=junsu'
     ports:
       - '3306:3306'

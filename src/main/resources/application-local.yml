@@ -1,0 +1,33 @@
+spring:
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/flow
+    username: junsu
+    password: junsu_password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+
+  docker:
+    compose:
+      enabled: true
+      lifecycle-management: start_and_stop
+      stop:
+        command: down
+        timeout: 1m
+      file: docker-compose-local.yml

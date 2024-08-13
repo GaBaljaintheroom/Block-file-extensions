@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: block-file-extensions
+  profiles:
+    active: local

@@ -28,6 +28,10 @@ develop : 개발 브랜치
 feature : 각 기능을 구현할 브랜치
 - feat/{name}-#{issue_number}
 
+규칙 
+
+1. feature에서 develop으로 머지할 때는 squash 머지를 한다.
+
 ### 깃 컨벤션
 
 - feat : 기능 구현

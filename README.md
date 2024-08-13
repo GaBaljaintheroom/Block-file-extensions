@@ -22,8 +22,11 @@
 main → develop → feature
 
 main : 상용 서버에 적용될 브랜치
+
 develop : 개발 브랜치
+
 feature : 각 기능을 구현할 브랜치
+- feat/{name}-#{issue_number}
 
 ### 깃 컨벤션
 
@@ -35,3 +38,6 @@ feature : 각 기능을 구현할 브랜치
 - chore : 세팅 업무
 
 ### 개발 고려사항
+
+ERD
+![erd.png](erd.png)

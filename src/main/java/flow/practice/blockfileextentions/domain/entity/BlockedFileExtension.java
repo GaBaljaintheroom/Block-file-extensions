@@ -17,4 +17,7 @@ public class BlockedFileExtension extends BaseEntity {
     @Column(name = "name", length = 20, nullable = false)
     private String name;
 
+    @Column(name = "is_fixed", nullable = false)
+    private boolean isFixed = false;
+
 }

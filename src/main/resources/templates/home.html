@@ -1,0 +1,57 @@
+<html lang="ko" layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div layout:fragment="content" class="container my-3">
+
+  <!-- 고정 확장자 목록 -->
+  <div class="mb-3">
+    <label for="fixedExtensions" class="form-label">고정 확장자</label>
+    <div id="fixedExtensions">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="extBar" value=".bar">
+        <label class="form-check-label" for="extBar">bat</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="extCmd" value=".cmd">
+        <label class="form-check-label" for="extCmd">cmd</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="extCom" value=".com">
+        <label class="form-check-label" for="extCom">com</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="extCpl" value=".cpl">
+        <label class="form-check-label" for="extCpl">cpl</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="extExe" value=".exe">
+        <label class="form-check-label" for="extExe">exe</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="extSrc" value=".src">
+        <label class="form-check-label" for="extSrc">src</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="extJs" value=".js">
+        <label class="form-check-label" for="extJs">js</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 커스텀 확장자 입력 필드 및 추가 버튼 -->
+  <div class="mb-3">
+    <label for="customExtension" class="form-label">커스텀 확장자</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="customExtension" placeholder="확장자 입력" required>
+      <button class="btn btn-primary" type="button" id="addExtensionButton">추가</button>
+    </div>
+  </div>
+
+  <!-- 추가된 확장자들을 표시할 영역 -->
+  <div class="mb-3">
+    <label class="form-label">추가된 커스텀 확장자</label>
+    <div id="customExtensionsList" class="border p-2" style="min-height: 50px;">
+
+    </div>
+  </div>
+
+</div>
+</html>

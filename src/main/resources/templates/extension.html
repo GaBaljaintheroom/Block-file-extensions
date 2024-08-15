@@ -6,31 +6,38 @@
     <label for="fixedExtensions" class="form-label">고정 확장자</label>
     <div id="fixedExtensions">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="extBar" value=".bar">
-        <label class="form-check-label" for="extBar">bat</label>
+        <input class="form-check-input" type="checkbox" id="extBar" value=".bar"
+               th:checked="${#lists.contains(fixedExtensionStatus, 'bar')}">
+        <label class="form-check-label" for="extBar">bar</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="extCmd" value=".cmd">
+        <input class="form-check-input" type="checkbox" id="extCmd" value=".cmd"
+               th:checked="${#lists.contains(fixedExtensionStatus, 'cmd')}">
         <label class="form-check-label" for="extCmd">cmd</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="extCom" value=".com">
+        <input class="form-check-input" type="checkbox" id="extCom" value=".com"
+               th:checked="${#lists.contains(fixedExtensionStatus, 'com')}">
         <label class="form-check-label" for="extCom">com</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="extCpl" value=".cpl">
+        <input class="form-check-input" type="checkbox" id="extCpl" value=".cpl"
+               th:checked="${#lists.contains(fixedExtensionStatus, 'cpl')}">
         <label class="form-check-label" for="extCpl">cpl</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="extExe" value=".exe">
+        <input class="form-check-input" type="checkbox" id="extExe" value=".exe"
+               th:checked="${#lists.contains(fixedExtensionStatus, 'exe')}">
         <label class="form-check-label" for="extExe">exe</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="extSrc" value=".src">
+        <input class="form-check-input" type="checkbox" id="extSrc" value=".src"
+               th:checked="${#lists.contains(fixedExtensionStatus, 'src')}">
         <label class="form-check-label" for="extSrc">src</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="extJs" value=".js">
+        <input class="form-check-input" type="checkbox" id="extJs" value=".js"
+               th:checked="${#lists.contains(fixedExtensionStatus, 'js')}">
         <label class="form-check-label" for="extJs">js</label>
       </div>
     </div>

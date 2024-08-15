@@ -19,7 +19,10 @@ public class BlockedFileExtensionController {
     @GetMapping("/extensions")
     public String extensions(Model model) {
         List<FixedExtensionsResponseDto> fixedExtensions = blockedFileExtensionService.findFixedExtensions();
-        model.addAttribute("fixedExtensionStatus", fixedExtensions);
+        List<String> fixedExtensionNames = fixedExtensions.stream().map(FixedExtensionsResponseDto::name)
+            .toList();
+
+        model.addAttribute("fixedExtensionStatus", fixedExtensionNames);
         return "extension";
     }
 

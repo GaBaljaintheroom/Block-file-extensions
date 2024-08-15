@@ -25,4 +25,8 @@ public class BlockedFileExtensionService {
             )
             .toList();
     }
+
+    public int findCustomExtensionsCount() {
+        return blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull();
+    }
 }

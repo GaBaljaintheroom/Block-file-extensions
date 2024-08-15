@@ -22,7 +22,10 @@ public class BlockedFileExtensionController {
         List<String> fixedExtensionNames = fixedExtensions.stream().map(FixedExtensionsResponseDto::name)
             .toList();
 
+        int customExtensionsCount = blockedFileExtensionService.findCustomExtensionsCount();
+
         model.addAttribute("fixedExtensionStatus", fixedExtensionNames);
+        model.addAttribute("customExtensionsCount", customExtensionsCount);
         return "extension";
     }
 

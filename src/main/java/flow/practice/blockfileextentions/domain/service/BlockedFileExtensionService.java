@@ -67,28 +67,13 @@ public class BlockedFileExtensionService {
         blockedFileExtension.revive();
     }
 
-    @Transactional
     public void addCustomExtension(CustomExtensionNameRequestDto request) {
         Lock lock = reentrantReadWriteLock.writeLock();
         boolean lockAcquired = false;
         try {
             lockAcquired = lock.tryLock(2, TimeUnit.SECONDS);
             if (lockAcquired) {
-                int customFileExtensionCount = blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull();
-                if (customFileExtensionCount == 200) {
-                    throw new CustomFileExtensionOverMaxCountException(
-                        ErrorCode.CUSTOM_FILE_EXTENSION_OVER_MAX_COUNT_ERROR
-                    );
-                }
-
-                boolean alreadyExist = blockedFileExtensionRepository.existsByNameAndDeletedAtIsNull(request.name());
-                if (alreadyExist) {
-                    throw new CustomFileExtensionDuplicatedException(
-                        ErrorCode.CUSTOM_FILE_EXTENSION_DUPLICATED_ERROR
-                    );
-                }
-
-                blockedFileExtensionRepository.save(request.toCustomExtension());
+                addCustomExtensionTransactional(request);
             }
         } catch (InterruptedException e) {
             throw new LockConflictException();
@@ -97,6 +82,25 @@ public class BlockedFileExtensionService {
                 lock.unlock();
             }
         }
+    }
+
+    @Transactional
+    public void addCustomExtensionTransactional(CustomExtensionNameRequestDto request) {
+        int customFileExtensionCount = blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull();
+        if (customFileExtensionCount == 200) {
+            throw new CustomFileExtensionOverMaxCountException(
+                ErrorCode.CUSTOM_FILE_EXTENSION_OVER_MAX_COUNT_ERROR
+            );
+        }
+
+        boolean alreadyExist = blockedFileExtensionRepository.existsByNameAndDeletedAtIsNull(request.name());
+        if (alreadyExist) {
+            throw new CustomFileExtensionDuplicatedException(
+                ErrorCode.CUSTOM_FILE_EXTENSION_DUPLICATED_ERROR
+            );
+        }
+
+        blockedFileExtensionRepository.save(request.toCustomExtension());
     }
 
     @Transactional

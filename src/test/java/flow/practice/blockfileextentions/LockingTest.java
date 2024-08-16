@@ -3,10 +3,12 @@ package flow.practice.blockfileextentions;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import flow.practice.blockfileextentions.domain.dto.request.CustomExtensionNameRequestDto;
+import flow.practice.blockfileextentions.domain.exception.CustomFileExtensionOverMaxCountException;
 import flow.practice.blockfileextentions.domain.repository.BlockedFileExtensionRepository;
 import flow.practice.blockfileextentions.domain.service.BlockedFileExtensionService;
 import flow.practice.blockfileextentions.fixture.BlockedFileExtensionFixture;
 import flow.practice.blockfileextentions.global.config.JpaAuditingConfig;
+import flow.practice.blockfileextentions.global.error.ErrorCode;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +42,7 @@ class LockingTest {
             BlockedFileExtensionFixture.customFileExtensions(199)
         );
 
-        //when
+        //when & then
         ExecutorService executor = Executors.newFixedThreadPool(10);
         for (int i = 0; i < 10; i++) {
             executor.submit(() -> {
@@ -48,15 +50,16 @@ class LockingTest {
                     blockedFileExtensionService.addCustomExtension(
                         new CustomExtensionNameRequestDto("락락")
                     );
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (CustomFileExtensionOverMaxCountException e) {
+                    assertThat(e.getMessage()).isEqualTo(
+                        ErrorCode.CUSTOM_FILE_EXTENSION_OVER_MAX_COUNT_ERROR.getMessage()
+                    );
+
+                    int actualCount = blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull();
+                    assertThat(actualCount).isEqualTo(200);
                 }
             });
         }
         executor.shutdown();
-
-        //then
-        int actualCount = blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull();
-        assertThat(actualCount).isEqualTo(200);
     }
 }

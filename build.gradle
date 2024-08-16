@@ -62,6 +62,10 @@ dependencies {
     }
 }
 
+jar {
+    enabled = false
+}
+
 tasks.register('installGitPreCommitHook', Copy) {
     from new File(rootProject.rootDir, 'scripts/pre-commit')
     into { new File(rootProject.rootDir, '.git/hooks') }

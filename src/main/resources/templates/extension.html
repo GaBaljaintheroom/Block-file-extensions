@@ -66,6 +66,8 @@
     <div id="customExtensionsList" class="border p-2" style="min-height: 50px; display: flex; flex-wrap: wrap; gap: 8px;">
       <div th:each="extension : ${customExtensionNames}" class="badge bg-primary text-light">
         <span th:text="${extension}"></span>
+        <button type="button" class="btn btn-danger btn-sm ms-2" th:customExtensionName="${extension}"
+                onclick="handleDeleteExtension(this.getAttribute('customExtensionName'))">x</button>
       </div>
     </div>
   </div>
@@ -124,7 +126,28 @@
       alert('확장자 이름을 입력해 주세요.');
     }
   }
-
   document.getElementById('addCustomExtensionButton').addEventListener('click', handleAddExtension);
+
+  function handleDeleteExtension(customExtensionName) {
+
+    fetch('/blocked-file/custom/extension', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name: customExtensionName })
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Success: Custom extension deleted.');
+        location.reload();
+      } else {
+        console.error('Failed to delete custom extension.');
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
 </script>
 </html>

@@ -98,4 +98,13 @@ public class BlockedFileExtensionService {
             }
         }
     }
+
+    @Transactional
+    public void deleteCustomExtension(CustomExtensionNameRequestDto request) {
+        BlockedFileExtension blockedFileExtension = blockedFileExtensionRepository
+            .findByNameAndDeletedAtIsNull(request.name())
+            .orElseThrow(EntityNotFoundException::new);
+
+        blockedFileExtension.delete();
+    }
 }

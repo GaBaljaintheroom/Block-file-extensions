@@ -48,6 +48,14 @@ feature : 각 기능을 구현할 브랜치
 
 ![erd.png](erd.png)
 
+### API 문서화
+1. [GET] httpURL/blocked-file/extensions : 파일 확장자 뷰를 보여준다.
+2. [POST] httpURL/blocked-file/{fixedExtensionId} : 고정된 확장자 상태를 변경시킨다.
+3. [POST] httpURL/blocked-file/custom/extension : 커스텀 확장자를 추가한다.
+     - RequestBody { "name" : }
+4. [DELETE] httpURL/blocked-file/custom/extension : 커스텀 확장자를 삭제한다.
+    - RequestBody { "name" : }
+
 ### 개발 고려사항
 
 1. 고정 확장자 데이터 미리 데이터베이스에 삽입

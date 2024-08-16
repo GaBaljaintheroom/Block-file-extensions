@@ -25,10 +25,10 @@ class BlockedFileExtensionRepositoryTest extends QueryTest {
         blockedFileExtensionRepository.saveAll(fixedExtensions);
 
         //when
-        int size = blockedFileExtensionRepository.findByIsFixedTrueAndDeletedAtIsNull().size();
+        int actualSize = blockedFileExtensionRepository.findByIsFixedTrueAndDeletedAtIsNull().size();
 
         //then
-        assertThat(size).isEqualTo(3);
+        assertThat(actualSize).isEqualTo(3);
     }
 
     @Test
@@ -59,6 +59,36 @@ class BlockedFileExtensionRepositoryTest extends QueryTest {
 
         //then
         assertThat(actualCount).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("커스텀 확장자 목록을 가져올 수 있다.")
+    void findByIsFixedFalseAndDeletedAtIsNull() {
+        //given
+        List<BlockedFileExtension> customExtensions = BlockedFileExtensionFixture
+            .customFileExtensions(3);
+        blockedFileExtensionRepository.saveAll(customExtensions);
+
+        //when
+        int actualSize = blockedFileExtensionRepository.findByIsFixedFalseAndDeletedAtIsNull().size();
+
+        //then
+        assertThat(actualSize).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("커스텀 확장자 목록이 없는 경우 빈 리스트를 반환한다.")
+    void getEmptyListWhenNoneCustomExtensions() {
+        //given
+        List<BlockedFileExtension> fixedFileExtensions = BlockedFileExtensionFixture
+            .fixedFileExtensions(3);
+        blockedFileExtensionRepository.saveAll(fixedFileExtensions);
+
+        //when
+        List<BlockedFileExtension> actualList = blockedFileExtensionRepository.findByIsFixedFalseAndDeletedAtIsNull();
+
+        //then
+        assertThat(actualList).isEmpty();
     }
 
 }

@@ -46,4 +46,19 @@ class BlockedFileExtensionRepositoryTest extends QueryTest {
         assertThat(actualList).isEmpty();
     }
 
+    @Test
+    @DisplayName("커스텀 확장자의 총 개수를 가져올 수 있다.")
+    void getCustomExtensionsTotalCount() {
+        //given
+        List<BlockedFileExtension> customExtensions = BlockedFileExtensionFixture
+            .customFileExtensions(3);
+        blockedFileExtensionRepository.saveAll(customExtensions);
+
+        //when
+        int actualCount = blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull();
+
+        //then
+        assertThat(actualCount).isEqualTo(3);
+    }
+
 }

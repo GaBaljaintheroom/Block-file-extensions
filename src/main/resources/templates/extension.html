@@ -54,8 +54,8 @@
   <div class="mb-3">
     <label for="customExtension" class="form-label">커스텀 확장자</label>
     <div class="input-group">
-      <input type="text" class="form-control" id="customExtension" placeholder="확장자 입력" required>
-      <button class="btn btn-primary" type="button" id="addExtensionButton">추가</button>
+      <input type="text" minlength="1" maxlength="20" class="form-control" id="customExtension" placeholder="확장자 입력" required>
+      <button class="btn btn-primary" type="button" id="addCustomExtensionButton">추가</button>
     </div>
   </div>
 
@@ -92,5 +92,36 @@
       console.error('Error:', error);
     });
   }
+
+  function handleAddExtension() {
+    const customExtensionInput = document.getElementById('customExtension');
+    const customExtensionName = customExtensionInput.value.trim();
+
+    if (customExtensionName) {
+      fetch('/blocked-file/custom/extension', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: customExtensionName })
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Success: Custom extension added.');
+          customExtensionInput.value = '';
+          location.reload();
+        } else {
+          console.error('Failed to add custom extension.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    } else {
+      alert('확장자 이름을 입력해 주세요.');
+    }
+  }
+
+  document.getElementById('addCustomExtensionButton').addEventListener('click', handleAddExtension);
 </script>
 </html>

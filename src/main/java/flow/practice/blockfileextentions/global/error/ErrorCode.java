@@ -12,9 +12,13 @@ public enum ErrorCode {
     INPUT_INVALID_VALUE_ERROR(400, "GLOBAL-002", "잘못된 입력 값입니다."),
     REQUEST_PARAMETER_NOT_FOUND_ERROR(400, "GLOBAL-004", "입력 파라미터가 존재하지 않습니다."),
     REQUEST_PARAMETER_TYPE_NOT_MATCH_ERROR(400, "GLOBAL-005", "입력 파라미터의 타입이 올바르지 않습니다."),
+    LOCK_CONFLICT_ERROR(500, "GLOBAL-006", "락 획득에 실패했습니다."),
 
     //DB
-    ENTITY_NOT_FOUND_ERROR(404, "DB-001", "요청한 엔티티를 찾을 수 없습니다.");
+    ENTITY_NOT_FOUND_ERROR(404, "DB-001", "요청한 엔티티를 찾을 수 없습니다."),
+
+    //blockedFileExtension
+    CUSTOM_FILE_EXTENSION_OVER_MAX_COUNT_ERROR(400, "BF-001", "커스텀 파일 확장자의 개수가 최대치를 초과했습니다.");
 
 
     private final int status;

@@ -81,7 +81,7 @@ public class BlockedFileExtensionService {
                     );
                 }
 
-                boolean alreadyExist = blockedFileExtensionRepository.existsByName(request.name());
+                boolean alreadyExist = blockedFileExtensionRepository.existsByNameAndDeletedAtIsNull(request.name());
                 if (alreadyExist) {
                     throw new CustomFileExtensionDuplicatedException(
                         ErrorCode.CUSTOM_FILE_EXTENSION_DUPLICATED_ERROR
@@ -97,5 +97,14 @@ public class BlockedFileExtensionService {
                 lock.unlock();
             }
         }
+    }
+
+    @Transactional
+    public void deleteCustomExtension(CustomExtensionNameRequestDto request) {
+        BlockedFileExtension blockedFileExtension = blockedFileExtensionRepository
+            .findByNameAndDeletedAtIsNull(request.name())
+            .orElseThrow(EntityNotFoundException::new);
+
+        blockedFileExtension.delete();
     }
 }

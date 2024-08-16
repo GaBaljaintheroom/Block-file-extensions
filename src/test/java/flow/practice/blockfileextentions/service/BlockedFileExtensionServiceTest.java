@@ -173,7 +173,7 @@ class BlockedFileExtensionServiceTest {
         //given
         CustomExtensionNameRequestDto request = BlockedFileExtensionDtoFixture.customExtensionNameRequestDto();
         given(
-            blockedFileExtensionRepository.existsByName(request.name())
+            blockedFileExtensionRepository.existsByNameAndDeletedAtIsNull(request.name())
         ).willReturn(true);
 
         //when && then

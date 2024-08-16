@@ -18,7 +18,8 @@ public enum ErrorCode {
     ENTITY_NOT_FOUND_ERROR(404, "DB-001", "요청한 엔티티를 찾을 수 없습니다."),
 
     //blockedFileExtension
-    CUSTOM_FILE_EXTENSION_OVER_MAX_COUNT_ERROR(400, "BF-001", "커스텀 파일 확장자의 개수가 최대치를 초과했습니다.");
+    CUSTOM_FILE_EXTENSION_OVER_MAX_COUNT_ERROR(400, "BF-001", "커스텀 파일 확장자의 개수가 최대치를 초과했습니다."),
+    CUSTOM_FILE_EXTENSION_DUPLICATED_ERROR(400, "BF-002", "커스텀 파일 확장자명이 중복되었습니다.");
 
 
     private final int status;

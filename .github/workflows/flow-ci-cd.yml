@@ -27,7 +27,7 @@ jobs:
       - name: Copy Secrets
         uses: microsoft/variable-substitution@v1
         with:
-          files: './src/main/resources/application-prod.yml
+          files: './src/main/resources/application-prod.yml'
         env:
           spring.datasource.url: ${{ secrets.APPLICATION_DATASOURCE_URL }}
           spring.datasource.username: ${{ secrets.APPLICATION_DATASOURCE_USERNAME }}

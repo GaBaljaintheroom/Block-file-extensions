@@ -9,7 +9,7 @@
 ### 기술
 
 - JAVA 17
-- Spring Boot 3.x
+- Spring Boot 3.3.2
 - Spring Data JPA
 - MySQL
 - Thymeleaf

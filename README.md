@@ -72,6 +72,7 @@ feature : 각 기능을 구현할 브랜치
     - 과제에서 주어진 View는 하나이므로 Thymeleaf로 충분히 View를 구성할 수 있다고 판단하였습니다.
     - /blocked-file/extensions 엔드포인트에서 고정된 확장자 목록, 커스텀 확장자 목록, 커스텀 확장자의 개수를 조회하여 Model & View를 구성했습니다.
     - bootstrap을 사용하여 UI를 개선시켰습니다.
+    - Javascript을 이용하여 API를 호출하엿습니다.
 
 
 3. BaseEntity 상속

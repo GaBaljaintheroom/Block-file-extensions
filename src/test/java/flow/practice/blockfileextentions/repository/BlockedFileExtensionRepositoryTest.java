@@ -91,4 +91,32 @@ class BlockedFileExtensionRepositoryTest extends QueryTest {
         assertThat(actualList).isEmpty();
     }
 
+    @Test
+    @DisplayName("같은 이름이 존재하면 true를 반환한다.")
+    void getTrueExistSameExtensionName() {
+        //given
+        BlockedFileExtension blockedFileExtension = BlockedFileExtensionFixture.oneFixedFileExtension();
+        blockedFileExtensionRepository.save(blockedFileExtension);
+
+        //when
+        boolean actual = blockedFileExtensionRepository.existsByNameAndDeletedAtIsNull("testName");
+
+        //then
+        assertThat(actual).isTrue();
+    }
+
+    @Test
+    @DisplayName("같은 이름이 존재하지 않으면 false를 반환한다.")
+    void getFalseExistSameExtensionName() {
+        //given
+        BlockedFileExtension blockedFileExtension = BlockedFileExtensionFixture.oneFixedFileExtension();
+        blockedFileExtensionRepository.save(blockedFileExtension);
+
+        //when
+        boolean actual = blockedFileExtensionRepository.existsByNameAndDeletedAtIsNull("박준수");
+
+        //then
+        assertThat(actual).isFalse();
+    }
+
 }

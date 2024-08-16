@@ -62,8 +62,11 @@
   <!-- 추가된 확장자들을 표시할 영역 -->
   <div class="mb-3">
     <label class="form-label">추가된 커스텀 확장자</label>
-    <div id="customExtensionsList" class="border p-2" style="min-height: 50px;">
-        <span th:text="${customExtensionsCount} + '/200'" ></span>
+    <label class="form-label" th:text="'(' + ${customExtensionsCount} + '/200)'"></label>
+    <div id="customExtensionsList" class="border p-2" style="min-height: 50px; display: flex; flex-wrap: wrap; gap: 8px;">
+      <div th:each="extension : ${customExtensionNames}" class="badge bg-primary text-light">
+        <span th:text="${extension}"></span>
+      </div>
     </div>
   </div>
 

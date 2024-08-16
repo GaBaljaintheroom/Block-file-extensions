@@ -1,6 +1,7 @@
 package flow.practice.blockfileextentions.domain.controller;
 
 import flow.practice.blockfileextentions.domain.dto.request.CustomExtensionNameRequestDto;
+import flow.practice.blockfileextentions.domain.dto.response.CustomExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.dto.response.FixedExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.service.BlockedFileExtensionService;
 import jakarta.validation.Valid;
@@ -31,8 +32,14 @@ public class BlockedFileExtensionController {
 
         int customExtensionsCount = blockedFileExtensionService.getCustomExtensionsCount();
 
+        List<CustomExtensionsResponseDto> customExtensions = blockedFileExtensionService.findCustomExtensions();
+        List<String> customExtensionNames = customExtensions.stream()
+            .map(CustomExtensionsResponseDto::name)
+            .toList();
+
         model.addAttribute("fixedExtensionStatus", fixedExtensionNames);
         model.addAttribute("customExtensionsCount", customExtensionsCount);
+        model.addAttribute("customExtensionNames", customExtensionNames);
         return "extension";
     }
 

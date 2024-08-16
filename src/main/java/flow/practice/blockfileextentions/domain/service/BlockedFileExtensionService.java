@@ -1,6 +1,7 @@
 package flow.practice.blockfileextentions.domain.service;
 
 import flow.practice.blockfileextentions.domain.dto.request.CustomExtensionNameRequestDto;
+import flow.practice.blockfileextentions.domain.dto.response.CustomExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.dto.response.FixedExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.entity.BlockedFileExtension;
 import flow.practice.blockfileextentions.domain.exception.CustomFileExtensionOverMaxCountException;
@@ -38,6 +39,18 @@ public class BlockedFileExtensionService {
 
     public int getCustomExtensionsCount() {
         return blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull();
+    }
+
+    public List<CustomExtensionsResponseDto> findCustomExtensions() {
+        List<BlockedFileExtension> customExtensions =
+            blockedFileExtensionRepository.findByIsFixedFalseAndDeletedAtIsNull();
+
+        return customExtensions.stream()
+            .map(customExtension -> CustomExtensionsResponseDto.builder()
+                .id(customExtension.getId())
+                .name(customExtension.getName())
+                .build())
+            .toList();
     }
 
     @Transactional

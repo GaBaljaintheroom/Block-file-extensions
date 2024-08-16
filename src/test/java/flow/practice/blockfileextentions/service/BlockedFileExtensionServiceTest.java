@@ -13,6 +13,7 @@ import flow.practice.blockfileextentions.domain.dto.request.CustomExtensionNameR
 import flow.practice.blockfileextentions.domain.dto.response.CustomExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.dto.response.FixedExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.entity.BlockedFileExtension;
+import flow.practice.blockfileextentions.domain.exception.CustomFileExtensionDuplicatedException;
 import flow.practice.blockfileextentions.domain.exception.CustomFileExtensionOverMaxCountException;
 import flow.practice.blockfileextentions.domain.repository.BlockedFileExtensionRepository;
 import flow.practice.blockfileextentions.domain.service.BlockedFileExtensionService;
@@ -151,7 +152,7 @@ class BlockedFileExtensionServiceTest {
     }
 
     @Test
-    @DisplayName("커스텀 확장자를 추가할 때 최대 개수보다 초가되면 오류가 발생한다.")
+    @DisplayName("커스텀 확장자를 추가할 때 최대 개수보다 초가되면 예외가 발생한다.")
     void addCustomExtensionOverMaxCount() {
         //given
         CustomExtensionNameRequestDto request = BlockedFileExtensionDtoFixture.customExtensionNameRequestDto();
@@ -161,9 +162,24 @@ class BlockedFileExtensionServiceTest {
 
         //when & then
         assertThatThrownBy(() -> blockedFileExtensionService.addCustomExtension(request))
-
             .isInstanceOf(CustomFileExtensionOverMaxCountException.class)
             .hasMessageContaining(
                 ErrorCode.CUSTOM_FILE_EXTENSION_OVER_MAX_COUNT_ERROR.getMessage());
+    }
+
+    @Test
+    @DisplayName("커스텀 확장자명이 중복되면 예외가 발생한다.")
+    void duplicatedCustomExtension() {
+        //given
+        CustomExtensionNameRequestDto request = BlockedFileExtensionDtoFixture.customExtensionNameRequestDto();
+        given(
+            blockedFileExtensionRepository.existsByName(request.name())
+        ).willReturn(true);
+
+        //when && then
+        assertThatThrownBy(() -> blockedFileExtensionService.addCustomExtension(request))
+            .isInstanceOf(CustomFileExtensionDuplicatedException.class)
+            .hasMessageContaining(
+                ErrorCode.CUSTOM_FILE_EXTENSION_DUPLICATED_ERROR.getMessage());
     }
 }

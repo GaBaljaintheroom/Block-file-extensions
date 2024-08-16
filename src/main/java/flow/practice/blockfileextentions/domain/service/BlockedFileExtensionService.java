@@ -4,6 +4,7 @@ import flow.practice.blockfileextentions.domain.dto.request.CustomExtensionNameR
 import flow.practice.blockfileextentions.domain.dto.response.CustomExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.dto.response.FixedExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.entity.BlockedFileExtension;
+import flow.practice.blockfileextentions.domain.exception.CustomFileExtensionDuplicatedException;
 import flow.practice.blockfileextentions.domain.exception.CustomFileExtensionOverMaxCountException;
 import flow.practice.blockfileextentions.domain.repository.BlockedFileExtensionRepository;
 import flow.practice.blockfileextentions.global.error.ErrorCode;
@@ -77,6 +78,13 @@ public class BlockedFileExtensionService {
                 if (customFileExtensionCount == 200) {
                     throw new CustomFileExtensionOverMaxCountException(
                         ErrorCode.CUSTOM_FILE_EXTENSION_OVER_MAX_COUNT_ERROR
+                    );
+                }
+
+                boolean alreadyExist = blockedFileExtensionRepository.existsByName(request.name());
+                if (alreadyExist) {
+                    throw new CustomFileExtensionDuplicatedException(
+                        ErrorCode.CUSTOM_FILE_EXTENSION_DUPLICATED_ERROR
                     );
                 }
 

@@ -33,7 +33,7 @@ public abstract class BaseEntity {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    public void delete() {
+    protected void delete() {
         this.deletedAt = LocalDateTime.now();
     }
 

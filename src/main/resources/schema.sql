@@ -7,6 +7,6 @@ CREATE TABLE blocked_file_extension
     deleted_at DATETIME(6),
     id         BIGINT      NOT NULL AUTO_INCREMENT,
     updated_at DATETIME(6) NOT NULL,
-    name       VARCHAR(20) NOT NULL unique,
+    name       VARCHAR(20) NOT NULL,
     PRIMARY KEY (id)
 );

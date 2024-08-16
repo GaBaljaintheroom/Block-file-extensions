@@ -3,9 +3,11 @@ package flow.practice.blockfileextentions.domain.service;
 import flow.practice.blockfileextentions.domain.dto.response.FixedExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.entity.BlockedFileExtension;
 import flow.practice.blockfileextentions.domain.repository.BlockedFileExtensionRepository;
+import flow.practice.blockfileextentions.global.error.exception.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +30,18 @@ public class BlockedFileExtensionService {
 
     public int getCustomExtensionsCount() {
         return blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull();
+    }
+
+    @Transactional
+    public void changeFixedExtensionStatus(Long fixedExtensionId) {
+        BlockedFileExtension blockedFileExtension = blockedFileExtensionRepository
+            .findById(fixedExtensionId).orElseThrow(EntityNotFoundException::new);
+
+        if (blockedFileExtension.isExisted()) {
+            blockedFileExtension.delete();
+            return;
+        }
+
+        blockedFileExtension.revive();
     }
 }

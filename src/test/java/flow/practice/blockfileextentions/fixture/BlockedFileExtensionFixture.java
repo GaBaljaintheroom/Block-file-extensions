@@ -15,4 +15,21 @@ public class BlockedFileExtensionFixture {
             .toList();
     }
 
+    public static BlockedFileExtension oneFixedFileExtension() {
+        return BlockedFileExtension.builder()
+            .name("testName")
+            .isFixed(true)
+            .build();
+    }
+
+    public static BlockedFileExtension oneDeletedFixedFileExtension() {
+        BlockedFileExtension blockedFileExtension = BlockedFileExtension.builder()
+            .name("testName")
+            .isFixed(true)
+            .build();
+
+        blockedFileExtension.delete();
+        return blockedFileExtension;
+    }
+
 }

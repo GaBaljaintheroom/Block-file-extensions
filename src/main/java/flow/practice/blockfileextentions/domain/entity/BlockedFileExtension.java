@@ -26,4 +26,18 @@ public class BlockedFileExtension extends BaseEntity {
         this.name = name;
         this.isFixed = isFixed;
     }
+
+    public boolean isExisted() {
+        return getDeletedAt() == null;
+    }
+
+    @Override
+    public void delete() {
+        super.delete();
+    }
+
+    @Override
+    public void revive() {
+        super.revive();
+    }
 }

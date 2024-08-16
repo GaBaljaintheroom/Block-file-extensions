@@ -23,10 +23,5 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Copy Secrets
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: './src/main/resources/application-local.yml'
-
       - name: Build with Gradle Wrapper
         run: ./gradlew clean build -Dspring.profiles.active=local

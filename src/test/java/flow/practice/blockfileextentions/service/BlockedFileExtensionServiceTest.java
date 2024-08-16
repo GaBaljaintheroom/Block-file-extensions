@@ -3,13 +3,20 @@ package flow.practice.blockfileextentions.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import flow.practice.blockfileextentions.domain.dto.request.CustomExtensionNameRequestDto;
+import flow.practice.blockfileextentions.domain.dto.response.CustomExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.dto.response.FixedExtensionsResponseDto;
 import flow.practice.blockfileextentions.domain.entity.BlockedFileExtension;
+import flow.practice.blockfileextentions.domain.exception.CustomFileExtensionOverMaxCountException;
 import flow.practice.blockfileextentions.domain.repository.BlockedFileExtensionRepository;
 import flow.practice.blockfileextentions.domain.service.BlockedFileExtensionService;
+import flow.practice.blockfileextentions.fixture.BlockedFileExtensionDtoFixture;
 import flow.practice.blockfileextentions.fixture.BlockedFileExtensionFixture;
 import flow.practice.blockfileextentions.global.error.ErrorCode;
 import flow.practice.blockfileextentions.global.error.exception.EntityNotFoundException;
@@ -110,4 +117,53 @@ class BlockedFileExtensionServiceTest {
             .hasMessageContaining(ErrorCode.ENTITY_NOT_FOUND_ERROR.getMessage());
     }
 
+    @Test
+    @DisplayName("커스텀 확장자 목록을 찾을 수 있다.")
+    void findCustomExtensions() {
+        //given
+        given(
+            blockedFileExtensionRepository.findByIsFixedFalseAndDeletedAtIsNull()
+        ).willReturn(
+            BlockedFileExtensionFixture.customFileExtensions(3)
+        );
+
+        //when
+        List<CustomExtensionsResponseDto> customExtensions = blockedFileExtensionService.findCustomExtensions();
+
+        //then
+        assertThat(customExtensions.size()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("커스텀 확장자를 추가할 때 최대 개수보다 초가되지 않으면 추가된다.")
+    void addCustomExtensionNotOverMaxCount() {
+        //given
+        CustomExtensionNameRequestDto request = BlockedFileExtensionDtoFixture.customExtensionNameRequestDto();
+        given(
+            blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull()
+        ).willReturn(199);
+
+        //when
+        blockedFileExtensionService.addCustomExtension(request);
+
+        //then
+        verify(blockedFileExtensionRepository, times(1)).save(any(BlockedFileExtension.class));
+    }
+
+    @Test
+    @DisplayName("커스텀 확장자를 추가할 때 최대 개수보다 초가되면 오류가 발생한다.")
+    void addCustomExtensionOverMaxCount() {
+        //given
+        CustomExtensionNameRequestDto request = BlockedFileExtensionDtoFixture.customExtensionNameRequestDto();
+        given(
+            blockedFileExtensionRepository.countByIsFixedFalseAndDeletedAtIsNull()
+        ).willReturn(200);
+
+        //when & then
+        assertThatThrownBy(() -> blockedFileExtensionService.addCustomExtension(request))
+
+            .isInstanceOf(CustomFileExtensionOverMaxCountException.class)
+            .hasMessageContaining(
+                ErrorCode.CUSTOM_FILE_EXTENSION_OVER_MAX_COUNT_ERROR.getMessage());
+    }
 }

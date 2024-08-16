@@ -10,4 +10,6 @@ public interface BlockedFileExtensionRepository extends JpaRepository<BlockedFil
     List<BlockedFileExtension> findByIsFixedTrueAndDeletedAtIsNull();
 
     int countByIsFixedFalseAndDeletedAtIsNull();
+
+    List<BlockedFileExtension> findByIsFixedFalseAndDeletedAtIsNull();
 }

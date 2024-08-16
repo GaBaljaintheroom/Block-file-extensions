@@ -15,6 +15,15 @@ public class BlockedFileExtensionFixture {
             .toList();
     }
 
+    public static List<BlockedFileExtension> customFileExtensions(int count) {
+        return IntStream.range(0, count)
+            .mapToObj(i -> BlockedFileExtension.builder()
+                .name("testName")
+                .isFixed(false)
+                .build())
+            .toList();
+    }
+
     public static BlockedFileExtension oneFixedFileExtension() {
         return BlockedFileExtension.builder()
             .name("testName")

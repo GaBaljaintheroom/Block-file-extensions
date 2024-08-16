@@ -119,4 +119,20 @@ class BlockedFileExtensionRepositoryTest extends QueryTest {
         assertThat(actual).isFalse();
     }
 
+    @Test
+    @DisplayName("이름이 같은 확장자를 가져올 수 있다.")
+    void findByNameAndDeletedAtIsNull() {
+        //given
+        BlockedFileExtension blockedFileExtension = BlockedFileExtensionFixture.oneFixedFileExtension();
+        blockedFileExtensionRepository.save(blockedFileExtension);
+
+        //when
+        BlockedFileExtension actualExtension = blockedFileExtensionRepository
+            .findByNameAndDeletedAtIsNull("testName")
+            .orElseThrow();
+
+        //then
+        assertThat(actualExtension.getName()).isEqualTo("testName");
+    }
+
 }

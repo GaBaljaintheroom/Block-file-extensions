@@ -15,7 +15,7 @@ public interface BlockedFileExtensionRepository extends JpaRepository<BlockedFil
 
     List<BlockedFileExtension> findByIsFixedFalseAndDeletedAtIsNull();
 
-    boolean existsByName(String name);
+    boolean existsByNameAndDeletedAtIsNull(String name);
 
     Optional<BlockedFileExtension> findByNameAndDeletedAtIsNull(String name);
 }

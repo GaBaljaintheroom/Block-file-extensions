@@ -81,7 +81,7 @@ public class BlockedFileExtensionService {
                     );
                 }
 
-                boolean alreadyExist = blockedFileExtensionRepository.existsByName(request.name());
+                boolean alreadyExist = blockedFileExtensionRepository.existsByNameAndDeletedAtIsNull(request.name());
                 if (alreadyExist) {
                     throw new CustomFileExtensionDuplicatedException(
                         ErrorCode.CUSTOM_FILE_EXTENSION_DUPLICATED_ERROR

@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feat/prod_setting-#21
 
 jobs:
   build-and-deploy:

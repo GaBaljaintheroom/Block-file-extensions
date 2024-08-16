@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlockedFileExtensionRepository extends JpaRepository<BlockedFileExtension, Long> {
+
     List<BlockedFileExtension> findByIsFixedTrueAndDeletedAtIsNull();
 
     int countByIsFixedFalseAndDeletedAtIsNull();
 
     List<BlockedFileExtension> findByIsFixedFalseAndDeletedAtIsNull();
+
+    boolean existsByName(String name);
 }
